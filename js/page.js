@@ -10,9 +10,13 @@ let monthlyLabels = ['Oct', 'Nov', 'Dec'];
 let deptSales = [12, 19, 3];
 let deptSalesLabels = ['Hiking', 'Running', 'Hunting'];
 
-function addYearlyTotal(a,b,c) {
-    return a+b+c;
+let yearlyTotal = 0;
+
+function addYearlyTotal(x) {
+    yearlyTotal += x;
 }
+
+monthlySales.forEach(addYearlyTotal);
 
 function findOver1000() {
     let number =  monthlySales.find(element => element > 1000);
@@ -24,7 +28,6 @@ function resetNum() {
     monthlySalesChart.update();
 }
 
-let yearlyTotal = addYearlyTotal(...monthlySales);
 yearlyLabel.innerHTML = "$" + yearlyTotal;
 
 // Bar
