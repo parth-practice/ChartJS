@@ -1,76 +1,64 @@
 // Accessing the objects
-let ctx = document.getElementById('monthlySales').getContext('2d');
-let pieCtx = document.getElementById('deptSales').getContext('2d');
-
-let yearlyLabel = document.getElementById('yearlyTotal');
-
-// Values from the form
-let newAmount = document.getElementById('itemAmount');
-let newMonth = document.getElementById('monthId');
-
+var ctx = document.getElementById('monthlySales').getContext('2d');
+var pieCtx = document.getElementById('deptSales').getContext('2d');
+var yearlyLabel = document.getElementById('yearlyTotal');
+var newAmount = document.getElementById('itemAmount');
+var newMonth = document.getElementById('monthId');
 let hikingRadio = document.getElementById('hiking');
 let runningRadio = document.getElementById('running');
 let huntingRadio = document.getElementById('hunting');
 
-let yearlyTotal = 0;
+// Monthly Totals
+var yearlyTotal = 0;
 
-const monthlySales = new Set();
-const monthlyLabels = new Set();
+const monthlySales = new Map();
 
-const categories = new WeakSet();
+{
+	let salesA = {
+		a:[1,2]
+	}
 
-let hiking = {category: "Hiking"};
-let running = {category: "Running"};
-let hunting = {category: "Hunting"};
+	var map = new WeakMap();
+	map.set(salesA, 'Hiking');
+ 
+	console.log('First ' + salesA)
+}
 
+// console.log('Second ' + salesA);
+
+// Add Sales
 function addSale(){
-	monthlySales.add(parseInt(newAmount.value));
-	monthlyLabels.add(newMonth.value);
+	monthlySales.set(newMonth.value, parseInt(newAmount.value))
 	
+	// Update our labels
+	monthlySalesChart.data.labels = Array.from(monthlySales.keys());
+
 	yearlyTotal = 0;
 
 	monthlySalesChart.data.datasets.forEach((dataset) => {
 	    dataset.data = [];
 	});
 
-	for (let amount of monthlySales){
+	for (let amount of monthlySales.values()){
 		yearlyTotal = amount + yearlyTotal;
 		yearlyLabel.innerHTML = yearlyTotal;
 
 		monthlySalesChart.data.datasets.forEach((dataset) => {
-			dataset.data.push(amount)
-		})
-
+	        dataset.data.push(amount);
+	    });
 	}
-
-	monthlySalesChart.data.labels = Array.from(monthlyLabels);
 
 	monthlySalesChart.update();
 
-	if (hikingRadio.checked) {
-		categories.add(hiking);
-	} else if (runningRadio.checked) {
-	    categories.add(running);
-	} else if (huntingRadio){
-	    categories.add(hunting);
-	} else{
-	    // Do something
-	}
-
-	console.log(categories);
-
 }
 
-function deletVal(){
-	monthlySales.forEach((value1, value2, monthlySales) =>{
-		alert(value1)
-	})
-}
-
-function addTotal(){
+function findSale(){
 	
 }
 
+function fillValue(){
+	
+}
 // Bar chart
 var monthlySalesChart = new Chart(ctx, {
     type: 'bar',
